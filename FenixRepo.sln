@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FenixRepo.Context", "FenixRepository\FenixRepo.Context.csproj", "{B0731224-959F-48B6-918E-8B4428A7458C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FenixRepo.Tests", "FenixRepository.Tests\FenixRepo.Tests.csproj", "{E7A87C88-3A7F-4243-9B87-6C239CEC5F2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FenixRepo.Core", "Fenix.Core\FenixRepo.Core.csproj", "{F9C325A0-9129-4BE5-A48F-B9BFD15B547A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B0731224-959F-48B6-918E-8B4428A7458C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0731224-959F-48B6-918E-8B4428A7458C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0731224-959F-48B6-918E-8B4428A7458C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0731224-959F-48B6-918E-8B4428A7458C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7A87C88-3A7F-4243-9B87-6C239CEC5F2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7A87C88-3A7F-4243-9B87-6C239CEC5F2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7A87C88-3A7F-4243-9B87-6C239CEC5F2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7A87C88-3A7F-4243-9B87-6C239CEC5F2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9C325A0-9129-4BE5-A48F-B9BFD15B547A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9C325A0-9129-4BE5-A48F-B9BFD15B547A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9C325A0-9129-4BE5-A48F-B9BFD15B547A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9C325A0-9129-4BE5-A48F-B9BFD15B547A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
