@@ -26,7 +26,7 @@ namespace FenixRepo.Tests
         public DatabaseTests()
         {            
             FenixRepositoryScriptExtractor.Initialize(() => new Context.Context(), new Configuration());
-            personRepository = new FenixRepository<Person>();
+            personRepository = new FenixRepository<Person>();            
             addressRepository = new FenixRepository<Context.Models.Address>();
         }
 
@@ -85,22 +85,26 @@ namespace FenixRepo.Tests
         }
 
         [TestMethod]
+        [TestCategory("Database")]
         public void Add_People()
         {
             AddTemplate<Person, Person>("People", count => CreatePeople(count), item => personRepository.Add(item), 21000);
         }
         [TestMethod]
+        [TestCategory("Database")]
         public void AddRange_People()
         {
             AddTemplate<Person, List<Person>>("People", count => Enumerable.Range(0, count).Select(x => CreatePeople(2)).ToList(), item => personRepository.AddRange(item), 41000);
         }        
 
         [TestMethod]
+        [TestCategory("Database")]
         public void Add_Addresses()
         {
             AddTemplate<Context.Models.Address, Context.Models.Address>("Addresses", count => CreateAddresses(count), item => addressRepository.Add(item), 20001);
         }
         [TestMethod]
+        [TestCategory("Database")]
         public void AddRange_Addresses()
         {
             AddTemplate<Context.Models.Address, List<Context.Models.Address>>("Addresses", count => Enumerable.Range(0, count).Select(x => CreateAddresses(2)).ToList(), item => addressRepository.AddRange(item), 40001);

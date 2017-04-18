@@ -17,7 +17,8 @@ namespace FenixRepo.Core
     public interface IFenixRepository<T> where T : class
     {
         T Add(T item);
-        IEnumerable<T> AddRange(List<T> items);        
+        IEnumerable<T> AddRange(List<T> items);
+        void CreateTable();
     }
 
     public class FenixRepository<T> : FenixRepositoryCreateTable<T>, IFenixRepository<T> where T : class
@@ -25,6 +26,11 @@ namespace FenixRepo.Core
         bool tableNotExistsException(Exception e)
         {           
             return ((e is DbUpdateException) && (e?.InnerException?.InnerException as SqlException)?.Number == 208) || ((e?.InnerException as SqlException).Number == 208);
+        }
+
+        public void CreateTable()
+        {
+            base.CreateTable();
         }
 
         TResult BaseWrapper<TResult>(Func<DbSet<T>, TResult> function) where TResult : class

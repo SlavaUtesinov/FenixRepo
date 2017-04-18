@@ -31,6 +31,7 @@ namespace FenixRepo.Tests
 
 
         [TestMethod]
+        [TestCategory("ScriptGeneration")]
         public void MigrationScriptFromAttribute()
         {            
             var repo = new PrivateObject(new FenixRepositoryCreateTable<Person>());
@@ -81,6 +82,7 @@ ALTER TABLE [dbo].[People] DROP COLUMN [Address]";
         }
 
         [TestMethod]
+        [TestCategory("ScriptGeneration")]
         public void BaseMigrationScript()
         {
             var repo = new PrivateType(typeof(FenixRepositoryScriptExtractor));            

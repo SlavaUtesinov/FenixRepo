@@ -79,7 +79,7 @@
       <Project>{f9c325a0-9129-4be5-a48f-b9bfd15b547a}</Project>
       <Name>FenixRepo.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FenixRepository\FenixRepo.Context.csproj">
+    <ProjectReference Include="..\Fenix.Context\FenixRepo.Context.csproj">
       <Project>{b0731224-959f-48b6-918e-8b4428a7458c}</Project>
       <Name>FenixRepo.Context</Name>
     </ProjectReference>
