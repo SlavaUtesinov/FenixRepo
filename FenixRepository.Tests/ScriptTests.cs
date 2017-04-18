@@ -20,6 +20,16 @@ namespace FenixRepo.Tests
             Initialize(() => new Context.Context(), new Configuration());
         }
 
+        private void NormalizedAssertAreEqual(string expected, string actual)
+        {
+            Assert.AreEqual(Normalize(expected), Normalize(actual));
+        }
+        private string Normalize(string input)
+        {
+            return Regex.Replace(input, @"\s", "").Trim();
+        }
+
+
         [TestMethod]
         public void MigrationScriptFromAttribute()
         {            
@@ -67,7 +77,7 @@ ALTER TABLE [dbo].[People] DROP COLUMN [Address]";
 
             var pattern = Regex.Replace(expected, @"[\[\]\(\)\.\+]", @"\$0");
             pattern = Regex.Replace(pattern, "@@", @".+?");            
-            Assert.IsTrue(Regex.IsMatch(script.Trim(), pattern));
+            Assert.IsTrue(Regex.IsMatch(Normalize(script), Normalize(pattern)));
         }
 
         [TestMethod]
@@ -81,19 +91,15 @@ ALTER TABLE [dbo].[People] DROP COLUMN [Address]";
 @"create table [dbo].[People] (
     [Id] [int] not null identity,
     [FirstName] [nvarchar](128) null,
-    [LastName] [nvarchar](128) null,
-    [Age] [int] not null,
-    [AddressId] [int] not null,
+    [LastName] [nvarchar](128) null,                
+    [Age] [int] not null,                 
+    [AddressId] [int] not null,              
     [BirthDay] [datetime] not null,
-    primary key ([Id])
+    primary key ([Id])                           
 );";
-            var str = $"exp={expected.Length};personScripts={personScripts.TableScript.Length}\n";
-            for (var i = 0; i < Math.Min(expected.Length, personScripts.TableScript.Length); i++)
-                if (expected[i] != personScripts.TableScript[i])
-                    str += $"(i={i},e={expected[i]},a={personScripts.TableScript[i]})";
 
-            Assert.AreEqual(expected, personScripts.TableScript, str);
-            Assert.AreEqual("alter table [dbo].[People] add constraint [Person_Address] foreign key ([AddressId]) references [dbo].[Addresses]([Id]) on delete cascade;", personScripts.FkScripts.First());
+            NormalizedAssertAreEqual(expected, personScripts.TableScript);
+            NormalizedAssertAreEqual("alter table [dbo].[People] add constraint [Person_Address] foreign key ([AddressId]) references [dbo].[Addresses]([Id]) on delete cascade;", personScripts.FkScripts.First());
 
             var expectedIndexes =
 @"CREATE INDEX [IX_Name] ON [dbo].[People]([Name])
@@ -103,7 +109,7 @@ DROP INDEX [IX_Address] ON [dbo].[People]
 CREATE INDEX [IX_Names] ON [dbo].[People]([FirstName], [LastName])
 CREATE INDEX [IX_AddressId] ON [dbo].[People]([AddressId])
 CREATE INDEX [IX_BirthDay] ON [dbo].[People]([BirthDay])";
-            Assert.AreEqual(expectedIndexes, personScripts.IndexScripts.Aggregate((a, b) => $"{a}\r\n{b}").Trim());
+            NormalizedAssertAreEqual(expectedIndexes, personScripts.IndexScripts.Aggregate((a, b) => $"{a}\r\n{b}"));
 
             expected =
 @"create table [dbo].[Addresses] (
@@ -114,12 +120,12 @@ CREATE INDEX [IX_BirthDay] ON [dbo].[People]([BirthDay])";
     primary key ([Id])
 );";
             var addrScripts = scripts[typeof(Context.Models.Address)];
-            Assert.AreEqual(expected, addrScripts.TableScript.Trim());
+            NormalizedAssertAreEqual(expected, addrScripts.TableScript);
 
             expectedIndexes =
 @"CREATE INDEX [IX_PostalCode] ON [dbo].[Addresses]([PostalCode])
 CREATE INDEX [IX_CityId] ON [dbo].[Addresses]([CityId])";
-            Assert.AreEqual(expectedIndexes, addrScripts.IndexScripts.Aggregate((a, b) => $"{a}\r\n{b}").Trim());
+            NormalizedAssertAreEqual(expectedIndexes, addrScripts.IndexScripts.Aggregate((a, b) => $"{a}\r\n{b}"));
         }
     }
 }
