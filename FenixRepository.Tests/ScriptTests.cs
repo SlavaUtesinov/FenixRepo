@@ -67,7 +67,7 @@ ALTER TABLE [dbo].[People] DROP COLUMN [Address]";
 
             var pattern = Regex.Replace(expected, @"[\[\]\(\)\.\+]", @"\$0");
             pattern = Regex.Replace(pattern, "@@", @".+?");            
-            Assert.IsTrue(Regex.IsMatch(script, pattern));
+            Assert.IsTrue(Regex.IsMatch(script.Trim(), pattern));
         }
 
         [TestMethod]
@@ -87,7 +87,7 @@ ALTER TABLE [dbo].[People] DROP COLUMN [Address]";
     [BirthDay] [datetime] not null,
     primary key ([Id])
 );";
-            Assert.AreEqual(expected, personScripts.TableScript);
+            Assert.AreEqual(expected, personScripts.TableScript.Trim(), personScripts.TableScript.Select(x => x.ToString()).Aggregate((a, b) => $"{a};{b}"));
             Assert.AreEqual("alter table [dbo].[People] add constraint [Person_Address] foreign key ([AddressId]) references [dbo].[Addresses]([Id]) on delete cascade;", personScripts.FkScripts.First());
 
             var expectedIndexes =
@@ -98,7 +98,7 @@ DROP INDEX [IX_Address] ON [dbo].[People]
 CREATE INDEX [IX_Names] ON [dbo].[People]([FirstName], [LastName])
 CREATE INDEX [IX_AddressId] ON [dbo].[People]([AddressId])
 CREATE INDEX [IX_BirthDay] ON [dbo].[People]([BirthDay])";
-            Assert.AreEqual(expectedIndexes, personScripts.IndexScripts.Aggregate((a, b) => $"{a}\r\n{b}"));
+            Assert.AreEqual(expectedIndexes, personScripts.IndexScripts.Aggregate((a, b) => $"{a}\r\n{b}").Trim());
 
             expected =
 @"create table [dbo].[Addresses] (
@@ -109,12 +109,12 @@ CREATE INDEX [IX_BirthDay] ON [dbo].[People]([BirthDay])";
     primary key ([Id])
 );";
             var addrScripts = scripts[typeof(Context.Models.Address)];
-            Assert.AreEqual(expected, addrScripts.TableScript);
+            Assert.AreEqual(expected, addrScripts.TableScript.Trim());
 
             expectedIndexes =
 @"CREATE INDEX [IX_PostalCode] ON [dbo].[Addresses]([PostalCode])
 CREATE INDEX [IX_CityId] ON [dbo].[Addresses]([CityId])";
-            Assert.AreEqual(expectedIndexes, addrScripts.IndexScripts.Aggregate((a, b) => $"{a}\r\n{b}"));
+            Assert.AreEqual(expectedIndexes, addrScripts.IndexScripts.Aggregate((a, b) => $"{a}\r\n{b}").Trim());
         }
     }
 }
