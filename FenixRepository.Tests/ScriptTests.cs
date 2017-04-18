@@ -87,7 +87,9 @@ ALTER TABLE [dbo].[People] DROP COLUMN [Address]";
     [BirthDay] [datetime] not null,
     primary key ([Id])
 );";
-            Assert.AreEqual(expected, personScripts.TableScript.Trim(), personScripts.TableScript.Select(x => x.ToString()).Aggregate((a, b) => $"{a};{b}"));
+
+            var item = Regex.Replace(personScripts.TableScript.Trim(), @"^\s+$[\r\n]*", "", RegexOptions.Multiline);
+            Assert.AreEqual(expected, item, item.Select(x => x.ToString()).Aggregate((a, b) => $"{a};{b}"));
             Assert.AreEqual("alter table [dbo].[People] add constraint [Person_Address] foreign key ([AddressId]) references [dbo].[Addresses]([Id]) on delete cascade;", personScripts.FkScripts.First());
 
             var expectedIndexes =
