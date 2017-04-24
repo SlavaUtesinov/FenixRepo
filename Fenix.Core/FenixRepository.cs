@@ -71,7 +71,7 @@ namespace FenixRepo.Core
 
         public IEnumerable<T> AddRange(List<T> items)
         {
-            return BaseWrapper(table => { table.AddRange(items); return items; });
+            return BaseWrapper(table => table.AddRange(items));
         }        
     }
 }
